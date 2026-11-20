@@ -913,25 +913,36 @@ export default function App({ user, onSignOut }) {
               </button>
 
               {isNotificationsOpen && (
-                <div className="absolute right-0 top-full z-50 mt-3 w-[min(92vw,24rem)] overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-2xl">
-                  <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
-                    <div>
+                <div role="dialog" aria-label="Notifications" className="fixed left-3 right-3 top-28 z-[60] mx-auto flex max-h-[calc(100dvh-8rem)] w-auto max-w-md flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-800 shadow-2xl md:absolute md:left-auto md:right-0 md:top-full md:mt-3 md:max-h-[calc(100vh-8rem)] md:w-[min(92vw,24rem)] md:max-w-none">
+                  <div className="flex shrink-0 items-center justify-between gap-2 border-b border-slate-100 px-4 py-3">
+                    <div className="min-w-0">
                       <h3 className="text-sm font-extrabold text-slate-900">Notifications</h3>
                       <p className="text-[11px] text-slate-500">
                         {unreadNotificationCount} unread notification{unreadNotificationCount === 1 ? '' : 's'}
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      onClick={handleMarkAllNotificationsRead}
-                      disabled={unreadNotificationCount === 0}
-                      className="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 disabled:cursor-not-allowed disabled:text-slate-300"
-                    >
-                      Mark all read
-                    </button>
+                    <div className="flex shrink-0 items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={handleMarkAllNotificationsRead}
+                        disabled={unreadNotificationCount === 0}
+                        className="min-h-9 whitespace-nowrap rounded-lg px-2 text-[11px] font-bold text-indigo-600 transition hover:bg-indigo-50 hover:text-indigo-800 disabled:cursor-not-allowed disabled:text-slate-300 disabled:hover:bg-transparent"
+                      >
+                        Mark all read
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setIsNotificationsOpen(false)}
+                        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-slate-200 text-slate-500 transition hover:bg-slate-100 hover:text-slate-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                        aria-label="Close notifications"
+                        title="Close notifications"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="max-h-96 overflow-y-auto">
+                  <div className="max-h-[calc(100dvh-14rem)] overflow-y-auto overscroll-contain md:max-h-96">
                     {notificationsLoading ? (
                       <p className="px-4 py-8 text-center text-xs text-slate-500">Loading notifications...</p>
                     ) : notifications.length === 0 ? (
@@ -957,10 +968,10 @@ export default function App({ user, onSignOut }) {
                               title="Open notification"
                             >
                               <span className="flex items-start justify-between gap-2">
-                                <span className="text-xs font-extrabold text-slate-900">{notification.title}</span>
+                                <span className="break-words text-xs font-extrabold text-slate-900">{notification.title}</span>
                                 {!notification.is_read && <span className="shrink-0 text-[9px] font-extrabold uppercase tracking-wide text-indigo-600">New</span>}
                               </span>
-                              <span className="mt-1 block text-xs leading-5 text-slate-600">{notification.message}</span>
+                              <span className="mt-1 block break-words text-xs leading-5 text-slate-600">{notification.message}</span>
                               {notification.report_title && (
                                 <span className="mt-1 block truncate text-[10px] font-semibold text-slate-500">Report: {notification.report_title}</span>
                               )}
