@@ -158,7 +158,7 @@ export default function Auth({ recoveryMode = false, onPasswordUpdated }) {
       ? 'Forgot password?'
       : isSignup
         ? 'Create account'
-        : 'Welcome back'
+        : 'Welcome to Campus Finder'
 
   const description = isRecovery
     ? 'Choose a new password for your account.'
